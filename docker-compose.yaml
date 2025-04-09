@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+#  Database container
+  mysqldb:
+    image: "mysql:8.0.13"
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+    networks:
+      - weather-test-net
+    environment:
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    volumes:
+      - db:/var/lib/mysql
+
+#  API Service container
+  api_service:
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    networks:
+      - weather-test-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://${MYSQL_HOST}:${MYSQL_DOCKER_PORT}/${MYSQL_DATABASE}
+    depends_on:
+      - mysqldb
+    volumes:
+      - .m2:/root/.m2
+
+networks:
+  weather-test-net:
+
+volumes:
+  db:
