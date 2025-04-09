@@ -11,8 +11,8 @@ import java.util.*;
 @Component
 public class WeatherUtils {
 
-    private ArrayList<String> STATISTICS = new ArrayList<>(Arrays.asList("min", "max", "sum", "average"));
-    private ArrayList<String> METRICS = new ArrayList<>(Arrays.asList("temperature", "humidity", "wind_speed", "precipitation"));
+    private static final ArrayList<String> STATISTICS = new ArrayList<>(Arrays.asList("min", "max", "sum", "average"));
+    private static final ArrayList<String> METRICS = new ArrayList<>(Arrays.asList("temperature", "humidity", "wind_speed", "precipitation"));
 
     public void validateQuery (CustomQuery query) {
 
